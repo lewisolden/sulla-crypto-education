@@ -1,16 +1,12 @@
-import { CourseModule } from '@/components/course/CourseModule'
-import { courseContent } from '@/lib/course-content'
+import { CourseLayout } from '@/components/course-layout'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
-      <div className="container py-8">
-        <h1 className="text-4xl font-bold mb-8">Welcome to Sulla</h1>
-        <CourseModule 
-          module={courseContent.modules[0]} 
-          onComplete={() => console.log('Module completed!')} 
-        />
+    <CourseLayout>
+      <div className="space-y-6">
+        <h1 className="text-3xl font-bold">Welcome to Sulla</h1>
+        <p className="text-gray-600">Start your journey into cryptocurrency education.</p>
       </div>
-    </main>
+    </CourseLayout>
   )
 }
