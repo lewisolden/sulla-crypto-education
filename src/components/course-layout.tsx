@@ -11,10 +11,27 @@ import {
   X
 } from 'lucide-react';
 
-// Import course content
+'use client'
+
+import React, { useState, useEffect, ReactNode } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { 
+  BookOpen, 
+  CheckCircle, 
+  ChevronRight,
+  Menu,
+  X
+} from 'lucide-react';
+
 import { courseContent } from '@/lib/course-content';
 
-export const CourseLayout = ({ children }) => {
+interface CourseLayoutProps {
+  children: ReactNode;
+}
+
+export const CourseLayout = ({ children }: CourseLayoutProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [progress, setProgress] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -23,6 +40,8 @@ export const CourseLayout = ({ children }) => {
     }
     return 0;
   });
+
+  // ... rest of the code stays the same
 
   useEffect(() => {
     localStorage.setItem('courseProgress', JSON.stringify(progress));
