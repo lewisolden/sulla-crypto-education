@@ -1,3 +1,37 @@
+// src/lib/course-content.ts
+interface Question {
+  id: string;
+  text: string;
+  options: string[];
+  correctAnswer: number;
+  explanation: string;
+}
+
+interface Module {
+  id: string;
+  title: string;
+  description: string;
+  lessons: Array<{
+    id: string;
+    title: string;
+    content: string;
+  }>;
+  quiz: {
+    id: string;
+    questions: Question[];
+  };
+}
+
+interface CourseContent {
+  id: string;
+  title: string;
+  description: string;
+  modules: Module[];
+}
+
+export const courseContent: CourseContent = {
+  // ... your existing content
+};
 export const courseContent = {
   id: 'crypto-fundamentals',
   title: 'Fundamentals of Cryptocurrency',
