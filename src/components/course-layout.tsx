@@ -1,31 +1,10 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { 
-  BookOpen, 
-  CheckCircle, 
-  ChevronRight,
-  Menu,
-  X
-} from 'lucide-react';
-
-'use client'
-
 import React, { useState, useEffect, ReactNode } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { 
-  BookOpen, 
-  CheckCircle, 
-  ChevronRight,
-  Menu,
-  X
-} from 'lucide-react';
-
+import { BookOpen, CheckCircle, ChevronRight, Menu, X } from 'lucide-react';
 import { courseContent } from '@/lib/course-content';
 
 interface CourseLayoutProps {
@@ -41,8 +20,6 @@ export const CourseLayout = ({ children }: CourseLayoutProps) => {
     }
     return 0;
   });
-
-  // ... rest of the code stays the same
 
   useEffect(() => {
     localStorage.setItem('courseProgress', JSON.stringify(progress));
@@ -86,7 +63,7 @@ export const CourseLayout = ({ children }: CourseLayoutProps) => {
         `}>
           <div className="h-full overflow-y-auto">
             <nav className="p-4 space-y-2">
-              <ModuleList />
+              <ModuleList currentProgress={progress} />
             </nav>
           </div>
         </aside>
@@ -102,26 +79,14 @@ export const CourseLayout = ({ children }: CourseLayoutProps) => {
   );
 };
 
-const ModuleList = () => {
-  const [moduleProgress, setModuleProgress] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('moduleProgress');
-      return saved ? JSON.parse(saved) : {};
-    }
-    return {};
-  });
-
-  useEffect(() => {
-    localStorage.setItem('moduleProgress', JSON.stringify(moduleProgress));
-  }, [moduleProgress]);
-
+const ModuleList = ({ currentProgress }: { currentProgress: number }) => {
   return (
     <div className="space-y-2">
       {courseContent.modules.map((module, index) => (
         <ModuleListItem 
           key={module.id}
           module={module}
-          progress={moduleProgress[module.id] || 0}
+          progress={currentProgress}
           index={index + 1}
         />
       ))}
@@ -129,7 +94,15 @@ const ModuleList = () => {
   );
 };
 
-const ModuleListItem = ({ module, progress, index }) => {
+const ModuleListItem = ({ 
+  module, 
+  progress, 
+  index 
+}: { 
+  module: typeof courseContent.modules[0];
+  progress: number;
+  index: number;
+}) => {
   return (
     <Card>
       <CardHeader className="p-4">
@@ -138,11 +111,7 @@ const ModuleListItem = ({ module, progress, index }) => {
             <p className="text-sm text-gray-500">Module {index}</p>
             <CardTitle className="text-base">{module.title}</CardTitle>
           </div>
-          {progress === 100 ? (
-            <CheckCircle className="h-5 w-5 text-green-500" />
-          ) : (
-            <span className="text-sm text-gray-500">{Math.round(progress)}%</span>
-          )}
+          <span className="text-sm text-gray-500">{Math.round(progress)}%</span>
         </div>
         <Progress value={progress} className="mt-2" />
       </CardHeader>
